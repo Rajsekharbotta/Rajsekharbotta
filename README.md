@@ -1,204 +1,415 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniTrip - Book Flights, Trains & Buses</title>
+    <title>Jyothi Education College Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
-        body { font-family: 'Inter', system-ui, sans-serif; }
-        .hero-bg {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), 
-                        url('https://picsum.photos/id/1015/2000/1200') center/cover no-repeat;
-        }
-        .tab-active {
-            border-bottom: 4px solid #2563eb;
-            color: #2563eb;
-            font-weight: 600;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .nav-active { @apply bg-blue-600 text-white; }
+        .card-hover:hover { transform: translateY(-4px); }
     </style>
 </head>
-<body class="bg-zinc-50">
+<body class="bg-gray-50">
 
-    <!-- Navbar -->
-    <nav class="bg-white shadow sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-blue-600 text-white rounded-2xl flex items-center justify-center text-3xl font-bold">U</div>
-                <h1 class="text-3xl font-bold">UniTrip</h1>
+    <!-- Login Page -->
+    <div id="login-page" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-700 to-indigo-800">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-10">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 mx-auto bg-blue-600 rounded-2xl flex items-center justify-center text-white text-4xl font-bold mb-4">JEC</div>
+                <h1 class="text-3xl font-bold text-gray-900">Jyothi Education College</h1>
+                <p class="text-gray-500 mt-1">Student Portal</p>
             </div>
-            <div class="flex gap-8 font-medium">
-                <a href="#" class="hover:text-blue-600">Flights</a>
-                <a href="#" class="hover:text-blue-600">Trains</a>
-                <a href="#" class="hover:text-blue-600">Buses</a>
+
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Student ID</label>
+                    <input id="student-id" type="text" placeholder="e.g. 245280479" 
+                           class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <input id="password" type="password" placeholder="Enter Password" 
+                           class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500">
+                </div>
+
+                <button onclick="login()" 
+                        class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-2xl text-lg">
+                    Login
+                </button>
+                <p class="text-center text-sm text-gray-500">Demo: Use any password</p>
             </div>
-            <div>👤</div>
         </div>
-    </nav>
+    </div>
 
-    <!-- Hero -->
-    <header class="hero-bg text-white py-24">
-        <div class="max-w-5xl mx-auto px-6 text-center">
-            <h1 class="text-5xl font-bold mb-3">One Website for All Transport</h1>
-            <p class="text-xl mb-10">Flights • Trains • Buses • Book Easily</p>
-
-            <!-- Tabs -->
-            <div class="inline-flex bg-white/10 backdrop-blur rounded-3xl p-1 mb-8">
-                <button onclick="switchTab(0)" id="tab0" class="tab-active px-8 py-3 rounded-3xl flex items-center gap-2">✈️ Flights</button>
-                <button onclick="switchTab(1)" id="tab1" class="px-8 py-3 rounded-3xl flex items-center gap-2">🚄 Trains</button>
-                <button onclick="switchTab(2)" id="tab2" class="px-8 py-3 rounded-3xl flex items-center gap-2">🚌 Buses</button>
-            </div>
-
-            <!-- Search Form -->
-            <div class="bg-white text-zinc-900 rounded-3xl p-8 shadow-2xl max-w-4xl mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+    <!-- Main Portal -->
+    <div id="main-portal" class="hidden flex min-h-screen">
+        <!-- Sidebar -->
+        <div class="w-72 bg-white border-r flex flex-col">
+            <div class="p-6 border-b">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-3xl font-bold">JEC</div>
                     <div>
-                        <label class="text-xs font-medium text-zinc-500">FROM</label>
-                        <select id="from" class="w-full mt-1 bg-zinc-100 rounded-2xl px-5 py-4 focus:outline-none">
-                            <option>Delhi (DEL)</option>
-                            <option>Mumbai (BOM)</option>
-                            <option>Bangalore (BLR)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-xs font-medium text-zinc-500">TO</label>
-                        <select id="to" class="w-full mt-1 bg-zinc-100 rounded-2xl px-5 py-4 focus:outline-none">
-                            <option>Mumbai (BOM)</option>
-                            <option>Delhi (DEL)</option>
-                            <option>Bangalore (BLR)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-xs font-medium text-zinc-500">DATE</label>
-                        <input type="date" id="date" value="2026-07-10" class="w-full mt-1 bg-zinc-100 rounded-2xl px-5 py-4">
-                    </div>
-                    <div>
-                        <label class="text-xs font-medium text-zinc-500">PASSENGERS</label>
-                        <select id="passengers" class="w-full mt-1 bg-zinc-100 rounded-2xl px-5 py-4">
-                            <option>1</option>
-                            <option selected>2</option>
-                            <option>3</option>
-                        </select>
-                    </div>
-                    <div class="flex items-end">
-                        <button onclick="searchTransport()" 
-                                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-2xl">
-                            SEARCH
-                        </button>
+                        <h1 class="text-2xl font-bold tracking-tight">Jyothi Education</h1>
+                        <p class="text-xs text-gray-500">College Portal</p>
                     </div>
                 </div>
             </div>
+
+            <nav class="flex-1 p-4 space-y-1 overflow-auto">
+                <a onclick="showSection('dashboard')" class="nav-link flex items-center gap-3 px-5 py-4 rounded-2xl cursor-pointer nav-active" id="nav-dashboard">
+                    <i class="fa-solid fa-house"></i> Dashboard
+                </a>
+                <a onclick="showSection('profile')" class="nav-link flex items-center gap-3 px-5 py-4 rounded-2xl cursor-pointer" id="nav-profile">
+                    <i class="fa-solid fa-user"></i> Profile
+                </a>
+                <a onclick="showSection('attendance')" class="nav-link flex items-center gap-3 px-5 py-4 rounded-2xl cursor-pointer" id="nav-attendance">
+                    <i class="fa-solid fa-calendar-check"></i> Attendance
+                </a>
+                <a onclick="showSection('marks')" class="nav-link flex items-center gap-3 px-5 py-4 rounded-2xl cursor-pointer" id="nav-marks">
+                    <i class="fa-solid fa-graduation-cap"></i> Marks
+                </a>
+                <a onclick="showSection('fees')" class="nav-link flex items-center gap-3 px-5 py-4 rounded-2xl cursor-pointer" id="nav-fees">
+                    <i class="fa-solid fa-money-bill"></i> Fees
+                </a>
+                <a onclick="showSection('courses')" class="nav-link flex items-center gap-3 px-5 py-4 rounded-2xl cursor-pointer" id="nav-courses">
+                    <i class="fa-solid fa-book"></i> Online Courses
+                </a>
+                <a onclick="showSection('complaints')" class="nav-link flex items-center gap-3 px-5 py-4 rounded-2xl cursor-pointer" id="nav-complaints">
+                    <i class="fa-solid fa-exclamation-triangle"></i> Complaints
+                </a>
+            </nav>
+
+            <div class="p-4 border-t mt-auto">
+                <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-2xl">
+                    <div class="w-10 h-10 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 font-bold text-xl">👤</div>
+                    <div>
+                        <p class="font-semibold text-sm" id="sidebar-name">Rajsekhar</p>
+                        <p class="text-xs text-gray-500" id="sidebar-id">245280479</p>
+                    </div>
+                </div>
+                <button onclick="logout()" class="mt-6 w-full text-red-600 hover:bg-red-50 py-3 rounded-2xl flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
         </div>
-    </header>
 
-    <!-- Results -->
-    <div id="results" class="max-w-7xl mx-auto px-6 py-12 hidden">
-        <button onclick="backToHome()" class="mb-6 text-blue-600 font-medium">← New Search</button>
-        <h2 class="text-3xl font-semibold mb-8" id="resultTitle"></h2>
-        <div id="resultsContainer" class="space-y-6"></div>
-    </div>
+        <!-- Main Content -->
+        <div class="flex-1 overflow-auto">
+            <header class="bg-white border-b px-8 py-5 flex justify-between items-center sticky top-0 z-50">
+                <h1 class="text-2xl font-semibold text-gray-800" id="page-title">Dashboard</h1>
+                <div class="flex items-center gap-4">
+                    <div class="text-right">
+                        <p class="font-medium" id="header-name">Rajsekhar</p>
+                        <p class="text-xs text-gray-500" id="header-id">245280479</p>
+                    </div>
+                </div>
+            </header>
 
-    <!-- Booking Modal -->
-    <div id="bookingModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-        <div class="bg-white rounded-3xl max-w-md w-full mx-4 p-8">
-            <h3 class="text-2xl font-bold mb-6" id="modalTitle"></h3>
-            <div id="modalDetails" class="space-y-4 mb-8"></div>
-            <div class="flex gap-4">
-                <button onclick="closeModal()" class="flex-1 py-4 border rounded-2xl">Cancel</button>
-                <button onclick="confirmBooking()" class="flex-1 py-4 bg-green-600 text-white rounded-2xl">Pay Now</button>
+            <!-- Dashboard -->
+            <div id="section-dashboard" class="p-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm">
+                        <p class="text-gray-500">Attendance</p>
+                        <p class="text-5xl font-bold text-blue-600 mt-2">94%</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm">
+                        <p class="text-gray-500">CGPA</p>
+                        <p class="text-5xl font-bold text-purple-600 mt-2">8.9</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm">
+                        <p class="text-gray-500">Fees Due</p>
+                        <p class="text-5xl font-bold text-orange-600 mt-2">₹8,500</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm">
+                        <p class="text-gray-500">Courses Enrolled</p>
+                        <p class="text-5xl font-bold text-emerald-600 mt-2">7</p>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-white rounded-3xl p-6">
+                    <h2 class="font-semibold mb-4">Quick Links</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div onclick="showSection('courses')" class="cursor-pointer bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-3xl text-center card-hover">
+                            <i class="fa-solid fa-book text-4xl text-blue-600 mb-3"></i>
+                            <p class="font-medium">Online Courses</p>
+                        </div>
+                        <div onclick="showSection('attendance')" class="cursor-pointer bg-gradient-to-br from-emerald-50 to-teal-50 p-6 rounded-3xl text-center card-hover">
+                            <i class="fa-solid fa-calendar-check text-4xl text-emerald-600 mb-3"></i>
+                            <p class="font-medium">Attendance</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile -->
+            <div id="section-profile" class="p-8 hidden">
+                <div class="bg-white rounded-3xl p-8 max-w-3xl">
+                    <h2 class="text-2xl font-bold mb-8">Student Profile</h2>
+                    <div class="space-y-4 text-lg">
+                        <p><strong>Name:</strong> <span id="profile-name">Rajsekhar</span></p>
+                        <p><strong>Student ID:</strong> <span id="profile-id">245280479</span></p>
+                        <p><strong>Course:</strong> B.Tech - Computer Science</p>
+                        <p><strong>Year:</strong> 3rd Year</p>
+                        <p><strong>Email:</strong> student@jec.edu.in</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance -->
+            <div id="section-attendance" class="p-8 hidden">
+                <div class="bg-white rounded-3xl p-8">
+                    <h2 class="text-2xl font-semibold mb-6">Attendance Record</h2>
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="text-left p-4">Subject</th>
+                                <th class="text-center p-4">Total</th>
+                                <th class="text-center p-4">Present</th>
+                                <th class="text-center p-4">Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendance-body" class="divide-y"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Marks -->
+            <div id="section-marks" class="p-8 hidden">
+                <div class="bg-white rounded-3xl p-8">
+                    <h2 class="text-2xl font-semibold mb-6">Semester Marks</h2>
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="text-left p-4">Subject</th>
+                                <th class="text-center p-4">Internal</th>
+                                <th class="text-center p-4">External</th>
+                                <th class="text-center p-4">Total</th>
+                                <th class="text-center p-4">Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody id="marks-body" class="divide-y"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Fees -->
+            <div id="section-fees" class="p-8 hidden">
+                <div class="bg-white rounded-3xl p-8 max-w-lg">
+                    <h2 class="text-2xl font-semibold mb-6">Fee Details</h2>
+                    <div class="space-y-6">
+                        <div class="flex justify-between border-b pb-6">
+                            <div>
+                                <p class="font-medium">Semester Tuition Fee</p>
+                                <p class="text-sm text-gray-500">Due: 30 June 2026</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-xl">₹25,000</p>
+                                <span class="text-orange-600">Pending</span>
+                            </div>
+                        </div>
+                        <button class="w-full py-4 bg-green-600 text-white rounded-2xl font-medium">Pay Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Courses -->
+            <div id="section-courses" class="p-8 hidden">
+                <h2 class="text-2xl font-semibold mb-6 px-8">Online Learning Portals</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8">
+                    <div class="bg-white rounded-3xl p-6 card-hover">
+                        <div class="h-40 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-2xl flex items-center justify-center text-white text-6xl mb-4">🐍</div>
+                        <h3 class="font-semibold text-xl">Python Programming</h3>
+                        <button onclick="enrollCourse(this)" class="mt-6 w-full py-3 bg-blue-600 text-white rounded-2xl">Enroll / Continue</button>
+                    </div>
+                    <div class="bg-white rounded-3xl p-6 card-hover">
+                        <div class="h-40 bg-gradient-to-br from-red-500 to-orange-400 rounded-2xl flex items-center justify-center text-white text-6xl mb-4">☕</div>
+                        <h3 class="font-semibold text-xl">Java Programming</h3>
+                        <button onclick="enrollCourse(this)" class="mt-6 w-full py-3 bg-blue-600 text-white rounded-2xl">Enroll / Continue</button>
+                    </div>
+                    <div class="bg-white rounded-3xl p-6 card-hover">
+                        <div class="h-40 bg-gradient-to-br from-purple-500 to-violet-400 rounded-2xl flex items-center justify-center text-white text-6xl mb-4">C++</div>
+                        <h3 class="font-semibold text-xl">C++ Programming</h3>
+                        <button onclick="enrollCourse(this)" class="mt-6 w-full py-3 bg-blue-600 text-white rounded-2xl">Enroll / Continue</button>
+                    </div>
+                    <div class="bg-white rounded-3xl p-6 card-hover">
+                        <div class="h-40 bg-gradient-to-br from-emerald-500 to-teal-400 rounded-2xl flex items-center justify-center text-white text-6xl mb-4">🌐</div>
+                        <h3 class="font-semibold text-xl">HTML & Web Design</h3>
+                        <button onclick="enrollCourse(this)" class="mt-6 w-full py-3 bg-blue-600 text-white rounded-2xl">Enroll / Continue</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complaints -->
+            <div id="section-complaints" class="p-8 hidden">
+                <div class="max-w-2xl mx-auto bg-white rounded-3xl p-8">
+                    <h2 class="text-2xl font-semibold mb-6">Raise a Complaint</h2>
+                    <textarea id="complaint-text" rows="5" class="w-full border rounded-3xl p-6 focus:outline-none" placeholder="Describe your issue..."></textarea>
+                    <button onclick="submitComplaint()" class="mt-6 w-full py-4 bg-red-600 hover:bg-red-700 text-white rounded-3xl font-medium">Submit Complaint</button>
+
+                    <h3 class="font-medium mt-12 mb-4">Previous Complaints</h3>
+                    <div id="complaint-list" class="space-y-4"></div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Toast -->
+    <div id="toast" class="hidden fixed bottom-6 right-6 bg-gray-900 text-white px-6 py-4 rounded-3xl shadow-2xl flex items-center gap-3">
+        <span id="toast-text"></span>
+    </div>
+
     <script>
-        let currentTab = 0;
+        // Students Database
+        const students = {
+            "245280479": { name: "Rajsekhar" },
+            "245280467": { name: "Nikitha" },
+            "2452890565": { name: "Allogolu Sagar" },
+            "2452890376": { name: "Chinni Krishna" },
+            "2452890324": { name: "Lahari" },
+            "2453890687": { name: "Gayatri" },
+            "2453890123": { name: "Ranjitha" },
+            "2452890476": { name: "Jatin Paul" }   // Newly Added
+        };
 
-        function switchTab(n) {
-            currentTab = n;
-            document.querySelectorAll('#tab0,#tab1,#tab2').forEach((el,i) => {
-                el.classList.toggle('tab-active', i === n);
+        let currentStudent = null;
+
+        const attendanceData = [
+            {sub: "Python Programming", total: 45, present: 43, perc: 95},
+            {sub: "Data Structures", total: 40, present: 37, perc: 92},
+            {sub: "Web Development", total: 38, present: 36, perc: 94}
+        ];
+
+        const marksData = [
+            {sub: "Python Programming", int: 28, ext: 65, total: 93, grade: "A+"},
+            {sub: "Data Structures", int: 25, ext: 58, total: 83, grade: "A"}
+        ];
+
+        let complaints = [];
+
+        function login() {
+            const idInput = document.getElementById('student-id').value.trim();
+            if (!idInput || !students[idInput]) {
+                showToast("Invalid Student ID", true);
+                return;
+            }
+
+            currentStudent = students[idInput];
+
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('main-portal').classList.remove('hidden');
+
+            // Update names and IDs
+            document.getElementById('header-name').textContent = currentStudent.name;
+            document.getElementById('header-id').textContent = idInput;
+            document.getElementById('sidebar-name').textContent = currentStudent.name;
+            document.getElementById('sidebar-id').textContent = idInput;
+            document.getElementById('profile-name').textContent = currentStudent.name;
+            document.getElementById('profile-id').textContent = idInput;
+
+            showSection('dashboard');
+            showToast(`Welcome, ${currentStudent.name}!`);
+        }
+
+        function showSection(section) {
+            document.querySelectorAll('[id^="section-"]').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`section-${section}`).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('nav-active'));
+            document.getElementById(`nav-${section}`).classList.add('nav-active');
+
+            document.getElementById('page-title').textContent = 
+                section === 'dashboard' ? 'Dashboard' :
+                section === 'profile' ? 'My Profile' :
+                section === 'attendance' ? 'Attendance' :
+                section === 'marks' ? 'Academic Marks' :
+                section === 'fees' ? 'Fee Details' :
+                section === 'courses' ? 'Online Courses' : 'Complaints';
+        }
+
+        function renderAttendance() {
+            const tbody = document.getElementById('attendance-body');
+            tbody.innerHTML = attendanceData.map(a => `
+                <tr>
+                    <td class="p-4">${a.sub}</td>
+                    <td class="text-center p-4">${a.total}</td>
+                    <td class="text-center p-4">${a.present}</td>
+                    <td class="text-center p-4 font-semibold text-emerald-600">${a.perc}%</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderMarks() {
+            const tbody = document.getElementById('marks-body');
+            tbody.innerHTML = marksData.map(m => `
+                <tr>
+                    <td class="p-4">${m.sub}</td>
+                    <td class="text-center p-4">${m.int}</td>
+                    <td class="text-center p-4">${m.ext}</td>
+                    <td class="text-center p-4 font-bold">${m.total}</td>
+                    <td class="text-center p-4"><span class="bg-emerald-100 text-emerald-700 px-4 py-1 rounded-3xl text-sm">${m.grade}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function enrollCourse(btn) {
+            btn.textContent = "✅ Enrolled";
+            btn.disabled = true;
+            showToast("Course enrolled successfully!");
+        }
+
+        function submitComplaint() {
+            const text = document.getElementById('complaint-text').value.trim();
+            if (!text) return showToast("Please write your complaint", true);
+
+            complaints.unshift({
+                date: new Date().toLocaleDateString(),
+                text: text,
+                status: "Pending"
             });
+
+            renderComplaints();
+            document.getElementById('complaint-text').value = '';
+            showToast("Complaint submitted successfully!");
         }
 
-        function searchTransport() {
-            const from = document.getElementById('from').value;
-            const to = document.getElementById('to').value;
-
-            document.getElementById('results').classList.remove('hidden');
-            document.querySelector('header').style.display = 'none';
-
-            document.getElementById('resultTitle').innerHTML = 
-                `${['Flights','Trains','Buses'][currentTab]} from <b>${from}</b> to <b>${to}</b>`;
-
-            renderResults(from, to);
+        function renderComplaints() {
+            const container = document.getElementById('complaint-list');
+            container.innerHTML = complaints.map(c => `
+                <div class="border rounded-2xl p-5">
+                    <p class="text-xs text-gray-500">${c.date} • ${c.status}</p>
+                    <p class="mt-2">${c.text}</p>
+                </div>
+            `).join('');
         }
 
-        function renderResults(from, to) {
-            const container = document.getElementById('resultsContainer');
-            container.innerHTML = '';
-
-            const mockData = currentTab === 0 ? [
-                {name:"IndiGo", dep:"07:45", arr:"09:55", dur:"2h 10m", price:4299},
-                {name:"Air India", dep:"11:00", arr:"13:20", dur:"2h 20m", price:5299}
-            ] : currentTab === 1 ? [
-                {name:"Rajdhani Express", dep:"16:55", arr:"22:10", dur:"5h 15m", price:1250}
-            ] : [
-                {name:"VRL Travels", dep:"21:00", arr:"05:30", dur:"8h 30m", price:899}
-            ];
-
-            mockData.forEach(item => {
-                const div = document.createElement('div');
-                div.className = "bg-white border rounded-3xl p-8 flex flex-col md:flex-row justify-between items-center gap-8 hover:shadow-xl transition";
-                div.innerHTML = `
-                    <div class="flex items-center gap-6">
-                        <span class="text-5xl">${currentTab===0?'✈️':currentTab===1?'🚄':'🚌'}</span>
-                        <div>
-                            <p class="font-bold text-xl">${item.name}</p>
-                            <p class="text-zinc-500">${item.dep} → ${item.arr}</p>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-sm text-zinc-500">${item.dur}</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-3xl font-bold text-emerald-600">₹${item.price}</p>
-                        <button onclick="bookNow('${item.name}', ${item.price})" 
-                                class="mt-4 px-10 py-3 bg-blue-600 text-white rounded-2xl hover:bg-blue-700">
-                            Book Now
-                        </button>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
+        function showToast(msg, error = false) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-text').textContent = msg;
+            if (error) toast.classList.add('bg-red-600');
+            else toast.classList.remove('bg-red-600');
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
         }
 
-        function bookNow(name, price) {
-            document.getElementById('modalTitle').textContent = `Book ${name}`;
-            document.getElementById('modalDetails').innerHTML = `
-                <p><strong>Date:</strong> 10 July 2026</p>
-                <p><strong>Passengers:</strong> 2</p>
-                <p class="text-2xl font-bold mt-4">Total: ₹${price * 2}</p>
-            `;
-            document.getElementById('bookingModal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('bookingModal').classList.add('hidden');
-        }
-
-        function confirmBooking() {
-            closeModal();
-            alert("🎉 Booking Successful!\n\nTicket sent to your email.");
-        }
-
-        function backToHome() {
-            document.getElementById('results').classList.add('hidden');
-            document.querySelector('header').style.display = 'block';
+        function logout() {
+            if (confirm("Logout from portal?")) {
+                document.getElementById('main-portal').classList.add('hidden');
+                document.getElementById('login-page').classList.remove('hidden');
+                document.getElementById('student-id').value = '';
+            }
         }
 
         // Initialize
-        switchTab(0);
+        window.onload = () => {
+            document.getElementById('student-id').value = "245280479";
+            renderAttendance();
+            renderMarks();
+            renderComplaints();
+        };
     </script>
 </body>
 </html>
